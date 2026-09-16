@@ -3,6 +3,9 @@
 
 #include "vector.h"
 
+static const float VIEWPORT_DISTANCE = 1.0f;
+
+
 typedef struct {
     vector3 position;
     vector3 direction;
