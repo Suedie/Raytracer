@@ -11,7 +11,7 @@ canvas* canvas_create(int width, int height) {
     return c;
 }
 
-void put_pixel(canvas* canvas, int x, int y, pixel colour) {
+void put_pixel(canvas *canvas, int x, int y, pixel colour) {
     int width = canvas->width;
     int height = canvas->height;
 
@@ -24,3 +24,4 @@ void put_pixel(canvas* canvas, int x, int y, pixel colour) {
 
     canvas->pixels[screen_x + (screen_y * width)] = colour;
 }
+

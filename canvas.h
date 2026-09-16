@@ -10,7 +10,7 @@ typedef struct {
 typedef struct {
     int width;
     int height;
-    pixel* pixels;
+    pixel *pixels;
 } canvas;
 
 canvas* canvas_create(int width, int height);
