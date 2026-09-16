@@ -12,6 +12,13 @@ canvas* canvas_create(int width, int height) {
     return c;
 }
 
+uint8_t clamp_u8 (int value) {
+    if (value < 0)      value = 0;
+    else if (value > 255)    value = 255;
+
+    return (uint8_t) value;
+}
+
 pixel pixel_create(int red, int green, int blue) {
     if (red < 0)        red = 0;
     if (red > 255)      red = 255;
@@ -22,6 +29,12 @@ pixel pixel_create(int red, int green, int blue) {
 
     pixel p = {(uint8_t) red, (uint8_t) green, (uint8_t) blue};
     return p;
+}
+
+void pixel_scalar_multiply(float scalar, pixel *p) {
+    p->red      = clamp_u8((int)(scalar * p->red+ 0.5f));
+    p->green    = clamp_u8((int)(scalar * p->green + 0.5f));
+    p->blue     = clamp_u8((int)(scalar * p->blue + 0.5f));
 }
 
 void put_pixel(canvas *canvas, int x, int y, pixel colour) {
