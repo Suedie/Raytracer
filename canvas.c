@@ -31,10 +31,12 @@ pixel pixel_create(int red, int green, int blue) {
     return p;
 }
 
-void pixel_scalar_multiply(float scalar, pixel *p) {
-    p->red      = clamp_u8((int)(scalar * p->red+ 0.5f));
-    p->green    = clamp_u8((int)(scalar * p->green + 0.5f));
-    p->blue     = clamp_u8((int)(scalar * p->blue + 0.5f));
+pixel pixel_scalar_multiply(float scalar, pixel p) {
+    uint8_t red      = clamp_u8((int)(scalar * p.red+ 0.5f));
+    uint8_t green    = clamp_u8((int)(scalar * p.green + 0.5f));
+    uint8_t blue     = clamp_u8((int)(scalar * p.blue + 0.5f));
+
+    return (pixel){red, green, blue};
 }
 
 void put_pixel(canvas *canvas, int x, int y, pixel colour) {
