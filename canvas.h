@@ -1,3 +1,6 @@
+#ifndef CANVAS_H
+#define CANVAS_H
+
 #include <stdint.h>
 
 
@@ -15,3 +18,5 @@ typedef struct {
 
 canvas* canvas_create(int width, int height);
 void put_pixel(canvas* canvas, int x, int y, pixel colour);
+
+#endif
