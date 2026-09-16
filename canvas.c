@@ -12,7 +12,7 @@ canvas* canvas_create(int width, int height) {
     return c;
 }
 
-uint8_t clamp_u8 (int value) {
+static uint8_t clamp_u8 (int value) {
     if (value < 0)      value = 0;
     else if (value > 255)    value = 255;
 
