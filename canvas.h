@@ -17,6 +17,9 @@ typedef struct {
 } canvas;
 
 canvas* canvas_create(int width, int height);
+pixel pixel_create(int red, int green, int blue);
+pixel pixel_scalar_multiply(float scalar, pixel p);
+pixel pixel_add(pixel p, pixel q);
 void put_pixel(canvas* canvas, int x, int y, pixel colour);
 
 #endif
