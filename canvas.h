@@ -2,9 +2,16 @@
 
 
 typedef struct {
+    int red;
+    int green;
+    int blue;
+} pixel;
+
+typedef struct {
     int width;
     int height;
-    uint32_t* pixels;
-} Canvas;
+    pixel* pixels;
+} canvas;
 
-Canvas* canvas_create(int width, int height);
+canvas* canvas_create(int width, int height);
+void put_pixel(int x, int y, pixel colour);
