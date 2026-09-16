@@ -1,8 +1,8 @@
 #include "canvas.h"
 #include <stdlib.h>
 
-Canvas* Canvas_Create(int width, int height) {
-    Canvas* c = malloc(sizeof *c);
+canvas* Canvas_Create(int width, int height) {
+    canvas* c = malloc(sizeof *c);
     if (!c) return NULL;
     c->width = width;
     c->height = height;
