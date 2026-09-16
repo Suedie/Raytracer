@@ -17,8 +17,7 @@ void put_pixel(canvas *canvas, int x, int y, pixel colour) {
 
     int screen_x = (width / 2) + x;
     int screen_y = (height / 2) - y;
-    int sequential_position = screen_x + (screen_y * width);
-    if (sequential_position < 0 || sequential_position >= width * height) {
+    if (screen_x < 0 || screen_y < 0 || screen_x >= width || screen_y >= height) {
         return;
     }
 
