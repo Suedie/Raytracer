@@ -1,7 +1,7 @@
 #include "canvas.h"
 #include <stdlib.h>
 
-canvas* Canvas_Create(int width, int height) {
+canvas* canvas_create(int width, int height) {
     canvas* c = malloc(sizeof *c);
     if (!c) return NULL;
     c->width = width;
@@ -9,4 +9,18 @@ canvas* Canvas_Create(int width, int height) {
     c->pixels = calloc(width * height, sizeof *c->pixels);
     if (!c->pixels) {free(c); return NULL;}
     return c;
+}
+
+void put_pixel(canvas* canvas, int x, int y, pixel colour) {
+    int width = canvas->width;
+    int height = canvas->height;
+
+    int screen_x = (width / 2) + x;
+    int screen_y = (height / 2) - y;
+    int sequential_position = screen_x + (screen_y * width);
+    if (sequential_position < 0 || sequential_position > width * height) {
+        return;
+    }
+
+    canvas->pixels[screen_x + (screen_y * width)] = colour;
 }

@@ -14,4 +14,4 @@ typedef struct {
 } canvas;
 
 canvas* canvas_create(int width, int height);
-void put_pixel(int x, int y, pixel colour);
+void put_pixel(canvas* canvas, int x, int y, pixel colour);
