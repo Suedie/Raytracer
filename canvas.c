@@ -32,6 +32,14 @@ pixel pixel_scalar_multiply(float scalar, pixel p) {
     return (pixel){red, green, blue};
 }
 
+pixel pixel_add(pixel p, pixel q) {
+    uint8_t red = clamp_u8(p.red + q.red);
+    uint8_t green = clamp_u8(p.green + q.green);
+    uint8_t blue = clamp_u8(p.blue + q.blue);
+
+    return (pixel){red, green, blue};
+}
+
 void put_pixel(canvas *canvas, int x, int y, pixel colour) {
     int width = canvas->width;
     int height = canvas->height;
