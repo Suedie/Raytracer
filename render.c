@@ -13,9 +13,21 @@ typedef struct {
 
 intersect intersect_ray_sphere (vector3 origin, vector3 direction, sphere s) {
     float radius = s.radius;
-    vector3 center_to_origin; //origin - s.centre;
+    vector3 center_to_origin = vector_sub(origin, s.centre);
     
-    
+    float a = vector_dot(direction, direction);
+    float b = 2 * vector_dot(center_to_origin, direction);
+    float c = vector_dot(center_to_origin, center_to_origin) - radius * radius;
+
+    float discriminant = (b * b) - (4 * a * c);
+    if (discriminant < 0) {
+        return (intersect) {INFINITY, INFINITY, false};
+    }
+
+    float t1 = (-b + sqrtf(discriminant)) / (2 * a);
+    float t2 = (-b - sqrtf(discriminant)) / (2 * a);
+
+    return (intersect) {t1, t2, true};
 }
 
 vector3 trace_ray (vector3 origin, scene s, vector3 direction, float t_min, float t_max) {
