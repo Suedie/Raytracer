@@ -5,12 +5,6 @@
 #include <math.h>
 #include <stdbool.h>
 
-typedef struct {
-    float t1;
-    float t2;
-    bool hit;
-} intersect;
-
 intersect intersect_ray_sphere (vector3 origin, vector3 direction, sphere s) {
     float radius = s.radius;
     vector3 center_to_origin = vector_sub(origin, s.centre);
