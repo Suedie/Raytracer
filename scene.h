@@ -5,7 +5,7 @@
 
 typedef struct {
     sphere* spheres;
-    
+    int sphere_count;
 } scene;
 
 #endif
