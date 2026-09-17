@@ -7,7 +7,7 @@
 #include "scene.h"
 #include <stdbool.h>
 
-static const pixel BACKGROUND_COLOUR = (pixel){255, 255, 255};
+static const pixel BACKGROUND_COLOUR = {255, 255, 255};
 
 typedef struct {
     float t1;

@@ -5,6 +5,7 @@
 #include "scene.h"
 #include "render.h"
 #include <SDL2/SDL.h>
+#include <stdbool.h>
 
 
 int main () {
@@ -47,7 +48,7 @@ int main () {
             if (e.type == SDL_QUIT) running = false;
         }
         SDL_RenderClear(ren);
-        SDL_RenderCopy(tex, NULL, NULL);
+        SDL_RenderCopy(ren, tex, NULL, NULL);
         SDL_RenderPresent(ren);
     }
 
