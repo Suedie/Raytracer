@@ -7,9 +7,10 @@
 
 typedef struct {
     vector3 centre;
-    pixel colour;
     float radius;
+    pixel colour;
 
 } sphere;
+
 
 #endif
