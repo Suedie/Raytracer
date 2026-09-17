@@ -14,7 +14,7 @@ camera create_default_camera(void) {
     return c;
 }
 
-vector3 canvas_to_viewport_coordinates (int width, int height, int x, int y, camera c) {
+vector3 canvas_to_viewport (int width, int height, int x, int y, camera c) {
     float viewport_x    = (float) x * (c.viewport_width / (float) width);
     float viewport_y    = (float) y * (c.viewport_height / (float) height);
 

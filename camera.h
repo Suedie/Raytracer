@@ -17,7 +17,7 @@ typedef struct {
 } camera;
 
 camera create_default_camera(void);
-vector3 canvas_to_viewport_coordinates (int width, int height, int x, int y, camera c);
+vector3 canvas_to_viewport (int width, int height, int x, int y, camera c);
 
 
 #endif
