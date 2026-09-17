@@ -1,4 +1,6 @@
 #include "render.h"
+#include "camera.h"
+#include "canvas.h"
 #include "sphere.h"
 #include "vector.h"
 #include "scene.h"
@@ -24,7 +26,7 @@ intersect intersect_ray_sphere (vector3 origin, vector3 direction, sphere s) {
     return (intersect) {t1, t2, true};
 }
 
-vector3 trace_ray (vector3 origin, scene s, vector3 direction, float t_min, float t_max) {
+pixel trace_ray (vector3 origin, scene s, vector3 direction, float t_min, float t_max) {
     float closest_t = INFINITY;
     sphere *closest_sphere = NULL;
     for (int i = 0; i < s.sphere_count; i++) {
@@ -44,4 +46,14 @@ vector3 trace_ray (vector3 origin, scene s, vector3 direction, float t_min, floa
         return BACKGROUND_COLOUR;
     }
     return closest_sphere->colour;
+}
+
+void render_scene_to_canvas (canvas *canv, camera cam, scene scen) {
+    for (int x = -canv->width / 2; x < canv->width / 2; x++) {
+        for (int y = -canv->height / 2; y < canv->height / 2; y++) {
+            vector3 direction = canvas_to_viewport(canv->width, canv->height, x, y, cam);
+            pixel colour = trace_ray(cam.position, scen, direction, 1, INFINITY);
+            put_pixel(canv, x, y, colour);
+        }
+    }
 }
