@@ -2,8 +2,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-canvas* canvas_create(int width, int height) {
-    canvas* c = malloc(sizeof *c);
+canvas *canvas_create(int width, int height) {
+    canvas *c = malloc(sizeof *c);
     if (!c) return NULL;
     c->width = width;
     c->height = height;
