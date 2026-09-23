@@ -1,6 +1,12 @@
 #include "light.h"
 #include "vector.h"
+#include "stdlib.h"
 
-lights create_lights(vector3 p_pos, float p_i, vector3 dir_dir, float dir_i, float a_i) {
-    
+lights create_lights(void) {
+    point_light *pl = NULL;
+    int point_light_count = 0;
+    directional_light dl;
+    ambient_light al;
 }
+
+void add_point_light(lights *l, point_light p);

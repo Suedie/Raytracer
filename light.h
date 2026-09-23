@@ -21,6 +21,7 @@ typedef struct {
 typedef struct {
     point_light *pl;
     int point_light_count;
+    int point_light_capacity;
     directional_light dl;
     ambient_light al;
 } lights;
