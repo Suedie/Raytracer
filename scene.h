@@ -7,6 +7,7 @@
 typedef struct {
     sphere *spheres;
     int sphere_count;
+    int sphere_capacity;
 
     lights l;
 } scene;
