@@ -17,12 +17,12 @@ scene *create_scene (void) {
 }
 
 //TODO add capacity doubling
-void add_sphere_to_scene (scene *scen, sphere spher) {
-    sphere *new_spheres = realloc(scen->spheres, (scen->sphere_count + 1) * sizeof(*scen->spheres));
+void add_sphere_to_scene (scene *s, sphere sp) {
+    sphere *new_spheres = realloc(s->spheres, (s->sphere_count + 1) * sizeof(*s->spheres));
     if (!new_spheres) {
         return;
     }
-    scen->spheres = new_spheres;
-    scen->spheres[scen->sphere_count] = spher;
-    scen->sphere_count++;
+    s->spheres = new_spheres;
+    s->spheres[s->sphere_count] = sp;
+    s->sphere_count++;
 }

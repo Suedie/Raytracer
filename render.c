@@ -48,12 +48,12 @@ pixel trace_ray (vector3 origin, scene s, vector3 direction, float t_min, float 
     return closest_sphere->colour;
 }
 
-void render_scene_to_canvas (canvas *canv, camera cam, scene scen) {
-    for (int x = -canv->width / 2; x < canv->width / 2; x++) {
-        for (int y = -canv->height / 2; y < canv->height / 2; y++) {
-            vector3 direction = canvas_to_viewport(canv->width, canv->height, x, y, cam);
-            pixel colour = trace_ray(cam.position, scen, direction, 1, INFINITY);
-            put_pixel(canv, x, y, colour);
+void render_scene_to_canvas (canvas *cv, camera cam, scene s) {
+    for (int x = -cv->width / 2; x < cv->width / 2; x++) {
+        for (int y = -cv->height / 2; y < cv->height / 2; y++) {
+            vector3 direction = canvas_to_viewport(cv->width, cv->height, x, y, cam);
+            pixel colour = trace_ray(cam.position, s, direction, 1, INFINITY);
+            put_pixel(cv, x, y, colour);
         }
     }
 }

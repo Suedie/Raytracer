@@ -17,6 +17,6 @@ typedef struct {
 
 intersect intersect_ray_sphere (vector3 origin, vector3 direction, sphere s);
 pixel TraceRay (camera c, scene s, vector3 direction, float t_max);
-void render_scene_to_canvas (canvas *canv, camera cam, scene scen);
+void render_scene_to_canvas (canvas *cv, camera c, scene s);
 
 #endif

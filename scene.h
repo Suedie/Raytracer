@@ -12,6 +12,6 @@ typedef struct {
 } scene;
 
 scene *create_scene (void);
-void add_sphere_to_scene (scene *scen, sphere spher);
+void add_sphere_to_scene (scene *s, sphere sp);
 
 #endif
