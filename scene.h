@@ -8,11 +8,7 @@ typedef struct {
     sphere *spheres;
     int sphere_count;
 
-    point_light *points;
-    int point_light_count;
-    directional_light dir_light;
-    ambient_light ambient;
-
+    lights l;
 } scene;
 
 scene *create_scene (void);

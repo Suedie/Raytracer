@@ -6,7 +6,6 @@
 typedef struct {
     vector3 position;
     float intensity;
-
 } point_light;
 
 typedef struct {
@@ -17,5 +16,13 @@ typedef struct {
 typedef struct {
     float intensity;
 } ambient_light;
+
+
+typedef struct {
+    point_light *pl;
+    int point_light_count;
+    directional_light dl;
+    ambient_light al;
+} lights;
 
 #endif
