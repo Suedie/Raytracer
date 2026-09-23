@@ -5,6 +5,7 @@
 lights create_lights(void) {
     point_light *pl = NULL;
     int point_light_count = 0;
+    int point_light_capacity = 0;
     directional_light dl;
     ambient_light al;
 }
