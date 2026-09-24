@@ -37,3 +37,8 @@ float vector_dot(vector3 a, vector3 b) {
 float vector_length(vector3 a) {
     return sqrtf(vector_dot(a, a));
 }
+
+vector3 vector_normalize(vector3 a) {
+    float len = vector_length(a);
+    return vector_scale(1.0f / len, a);
+}
