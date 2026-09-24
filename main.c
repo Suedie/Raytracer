@@ -6,6 +6,7 @@
 #include "render.h"
 #include <SDL2/SDL.h>
 #include <stdbool.h>
+#include "light.h"
 
 
 int main () {
@@ -26,6 +27,11 @@ int main () {
 
     add_sphere_to_scene(scen, sphere_green);
 
+    point_light pl = {{2.0f, 1.0f, 0.0f}, 0.6f};
+
+    add_point_light(&scen->l, pl);
+    set_ambient_light(&scen->l, (ambient_light){0.2f});
+    set_directional_light(&scen->l, (directional_light) {{1.0f, 4.0f, 4.0f}, 0.2f});
 
     render_scene_to_canvas (canv, cam, *scen);
 
