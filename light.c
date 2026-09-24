@@ -44,21 +44,21 @@ void set_ambient_light (lights *l, ambient_light al) {
 }
 
 float compute_light(lights *l, vector3 p, vector3 n) {
-    float i = 0.0f;
-    i += l->al.intensity;
+    float intensity = 0.0f;
+    intensity += l->al.intensity;
     vector3 L = l->dl.direction;
     float n_dot_l = vector_dot(n, L);
     if  (n_dot_l > 0) {
-        i += l->dl.intensity * (n_dot_l / vector_length(n) * vector_length(L));
+        intensity += l->dl.intensity * n_dot_l / (vector_length(n) * vector_length(L));
     }
 
-    for (int i = 0; i < l->point_light_count - 1; i++) {
+    for (int i = 0; i < l->point_light_count; i++) {
         L = vector_sub(l->pl[i].position, p);
-        float n_dot_l = vector_dot(n, L);
+        n_dot_l = vector_dot(n, L);
         if  (n_dot_l > 0) {
-            i += l->dl.intensity * (n_dot_l / vector_length(n) * vector_length(L));
+            intensity += l->pl[i].intensity * n_dot_l / (vector_length(n) * vector_length(L));
         }
     }
 
-    return i;
+    return intensity;
 }
