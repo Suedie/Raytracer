@@ -31,10 +31,10 @@ void add_point_light(lights *l, point_light p) {
     l->point_light_count++;
 }
 
-void add_directional_light(lights *l, directional_light dl) {
+void set_directional_light(lights *l, directional_light dl) {
     l->dl = dl;
 }
 
-void add_ambient_light (lights *l, ambient_light al) {
+void set_ambient_light (lights *l, ambient_light al) {
     l->al = al;
 }
