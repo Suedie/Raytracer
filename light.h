@@ -26,4 +26,7 @@ typedef struct {
     ambient_light al;
 } lights;
 
+lights create_lights(void);
+void add_point_light(lights *l, point_light p);
+
 #endif
