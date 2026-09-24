@@ -33,3 +33,7 @@ float vector_dot(vector3 a, vector3 b) {
 
     return (x + y + z);
 }
+
+float vector_length(vector3 a) {
+    return sqrtf(vector_dot(a, a));
+}
