@@ -1,6 +1,5 @@
 #include "light.h"
 #include "stdlib.h"
-#include "scene.h"
 #include "vector.h"
 
 
