@@ -7,8 +7,8 @@ lights create_lights(void) {
     point_light *pl = NULL;
     int point_light_count = 0;
     int point_light_capacity = 0;
-    directional_light dl;
-    ambient_light al;
+    directional_light dl = {{0.0f, 0.0f, 0.0f}, 0.0f};
+    ambient_light al = {0.0f};
     lights l = {pl, point_light_count, point_light_capacity, dl, al};
     return l;
 }
