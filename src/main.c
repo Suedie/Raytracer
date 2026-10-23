@@ -4,7 +4,7 @@
 #include "vector.h"
 #include "scene.h"
 #include "render.h"
-#include <SDL2/SDL.h>
+#include <raylib.h>
 #include <stdbool.h>
 #include "light.h"
 
@@ -36,34 +36,29 @@ int main () {
 
     render_scene_to_canvas (canv, cam, *scen);
 
+    //Render code
+    InitWindow(canv->width, canv->height, "Raytracer");
+    SetTargetFPS(60);
 
-        // ---- display ----
-    SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window   *win = SDL_CreateWindow("Raytracer",
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        canv->width, canv->height, 0);
-    SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
-    SDL_Texture  *tex = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGB24,
-        SDL_TEXTUREACCESS_STATIC, canv->width, canv->height);
+    // The canvas pixels are tightly packed 8-bit RGB, so raylib can read them directly
+    Image image = {
+        .data = canv->pixels,
+        .width = canv->width,
+        .height = canv->height,
+        .mipmaps = 1,
+        .format = PIXELFORMAT_UNCOMPRESSED_R8G8B8,
+    };
+    Texture2D texture = LoadTextureFromImage(image);
 
-    SDL_UpdateTexture(tex, NULL, canv->pixels, canv->width * sizeof(pixel));
-
-    bool running = true;
-    while (running) {
-        SDL_Event e;
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) running = false;
-        }
-        SDL_RenderClear(ren);
-        SDL_RenderCopy(ren, tex, NULL, NULL);
-        SDL_RenderPresent(ren);
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(BLACK);
+        DrawTexture(texture, 0, 0, WHITE);
+        EndDrawing();
     }
 
-    SDL_DestroyTexture(tex);
-    SDL_DestroyRenderer(ren);
-    SDL_DestroyWindow(win);
-    SDL_Quit();
-    return 0;
+    UnloadTexture(texture);
+    CloseWindow();
 
     return 0;
 }

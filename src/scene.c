@@ -1,6 +1,5 @@
 #include "scene.h"
 #include "sphere.h"
-#include <corecrt_search.h>
 #include <stdlib.h>
 
 scene *create_scene (void) {
