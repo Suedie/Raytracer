@@ -1,9 +1,9 @@
-#include "light.h"
+#include "lights.h"
 #include <stdlib.h>
 #include "vector.h"
 
 
-lights create_lights(void) {
+lights lights_create(void) {
     point_light *pl = NULL;
     int point_light_count = 0;
     int point_light_capacity = 0;
@@ -13,7 +13,7 @@ lights create_lights(void) {
     return l;
 }
 
-void light_add_point(lights *l, point_light p) {
+void lights_add_point(lights *l, point_light p) {
     if (l->point_light_count >= l->point_light_capacity) {
         int new_cap;
         if (l->point_light_capacity <= 0) {
@@ -38,11 +38,11 @@ void light_set_directional(lights *l, directional_light dl) {
     l->dl = dl;
 }
 
-void light_set_ambient (lights *l, ambient_light al) {
+void lights_set_ambient (lights *l, ambient_light al) {
     l->al = al;
 }
 
-float light_compute(lights *l, vector3 p, vector3 n) {
+float lights_compute(lights *l, vector3 p, vector3 n) {
     float intensity = 0.0f;
     intensity += l->al.intensity;
     vector3 L = l->dl.direction;

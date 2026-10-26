@@ -6,7 +6,7 @@
 #include "scene.h"
 #include <math.h>
 #include <stdbool.h>
-#include "light.h"
+#include "lights.h"
 
 intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere s) {
     float radius = s.radius;
@@ -50,7 +50,7 @@ pixel render_trace_ray (vector3 origin, scene s, vector3 direction, float t_min,
     vector3 p = vector3_add(origin, vector3_scale(closest_t, direction));
     vector3 n = vector3_sub(p, closest_sphere->centre);
     n = vector3_scale(1.0f / vector3_length(n), n);
-    return pixel_scalar_multiply(light_compute(&s.l, p, n), closest_sphere->colour);
+    return pixel_scalar_multiply(lights_compute(&s.l, p, n), closest_sphere->colour);
 }
 
 void render_scene_to_canvas (canvas *cv, camera cam, scene s) {

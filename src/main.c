@@ -6,7 +6,7 @@
 #include "render.h"
 #include <raylib.h>
 #include <stdbool.h>
-#include "light.h"
+#include "lights.h"
 
 
 int main () {
@@ -30,8 +30,8 @@ int main () {
 
     point_light pl = {{2.0f, 1.0f, 0.0f}, 0.6f};
 
-    light_add_point(&scen->l, pl);
-    light_set_ambient(&scen->l, (ambient_light){0.2f});
+    lights_add_point(&scen->l, pl);
+    lights_set_ambient(&scen->l, (ambient_light){0.2f});
     light_set_directional(&scen->l, (directional_light) {{1.0f, 4.0f, 4.0f}, 0.2f});
 
     render_scene_to_canvas (canv, cam, *scen);

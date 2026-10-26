@@ -1,5 +1,5 @@
 #include "scene.h"
-#include "light.h"
+#include "lights.h"
 #include "sphere.h"
 #include <stdlib.h>
 
@@ -11,7 +11,7 @@ scene *scene_create (void) {
     scene->spheres = NULL;
     scene->sphere_count = 0;
     scene->sphere_capacity = 0;
-    scene->l = create_lights();
+    scene->l = lights_create();
     return scene;
 }
 

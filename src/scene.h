@@ -2,7 +2,7 @@
 #define SCENE_H
 
 #include "sphere.h"
-#include "light.h"
+#include "lights.h"
 
 typedef struct {
     sphere *spheres;

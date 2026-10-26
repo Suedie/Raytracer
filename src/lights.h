@@ -26,10 +26,10 @@ typedef struct {
     ambient_light al;
 } lights;
 
-lights create_lights(void);
-void light_add_point(lights *l, point_light p);
+lights lights_create(void);
+void lights_add_point(lights *l, point_light p);
 void light_set_directional(lights *l, directional_light dl);
-void light_set_ambient (lights *l, ambient_light al);
-float light_compute(lights *l, vector3 p, vector3 n);
+void lights_set_ambient (lights *l, ambient_light al);
+float lights_compute(lights *l, vector3 p, vector3 n);
 
 #endif
