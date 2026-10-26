@@ -3,7 +3,7 @@
 #include "sphere.h"
 #include <stdlib.h>
 
-scene *create_scene (void) {
+scene *scene_create (void) {
     scene *scene = malloc(sizeof(*scene));
     if (!scene) {
         return NULL;
@@ -15,7 +15,7 @@ scene *create_scene (void) {
     return scene;
 }
 
-void add_sphere_to_scene (scene *s, sphere sp) {
+void scene_add_sphere (scene *s, sphere sp) {
     if (s->sphere_count >= s->sphere_capacity) {
         int new_cap;
         if (s->sphere_capacity <= 0) {

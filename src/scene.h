@@ -12,7 +12,7 @@ typedef struct {
     lights l;
 } scene;
 
-scene *create_scene (void);
-void add_sphere_to_scene (scene *s, sphere sp);
+scene *scene_create (void);
+void scene_add_sphere (scene *s, sphere sp);
 
 #endif
