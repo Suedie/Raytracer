@@ -2,7 +2,7 @@
 #define SPHERE_H
 
 #include "canvas.h"
-#include "vector.h"
+#include "vector3.h"
 
 
 typedef struct {

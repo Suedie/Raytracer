@@ -1,4 +1,4 @@
-#include "vector.h"
+#include "vector3.h"
 #include <math.h>
 
 vector3 vector3_add(vector3 a, vector3 b) {

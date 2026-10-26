@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "vector.h"
+#include "vector3.h"
 
 static const float VIEWPORT_DISTANCE = 1.0f;
 

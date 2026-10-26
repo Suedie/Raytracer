@@ -1,7 +1,7 @@
 #ifndef LIGHTS_H
 #define LIGHTS_H
 
-#include "vector.h"
+#include "vector3.h"
 
 typedef struct {
     vector3 position;

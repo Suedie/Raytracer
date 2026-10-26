@@ -2,7 +2,7 @@
 #include "camera.h"
 #include "canvas.h"
 #include "sphere.h"
-#include "vector.h"
+#include "vector3.h"
 #include "scene.h"
 #include <math.h>
 #include <stdbool.h>

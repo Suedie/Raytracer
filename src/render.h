@@ -2,7 +2,7 @@
 #define RENDER_H
 
 #include "canvas.h"
-#include "vector.h"
+#include "vector3.h"
 #include "camera.h"
 #include "scene.h"
 #include <stdbool.h>

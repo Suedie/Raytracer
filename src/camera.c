@@ -1,5 +1,5 @@
 #include "camera.h"
-#include "vector.h"
+#include "vector3.h"
 
 camera camera_create_default(void) {
     vector3 position        = {0.0f, 0.0f, 0.0f,};

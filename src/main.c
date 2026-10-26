@@ -1,7 +1,7 @@
 #include "camera.h"
 #include "canvas.h"
 #include "sphere.h"
-#include "vector.h"
+#include "vector3.h"
 #include "scene.h"
 #include "render.h"
 #include <raylib.h>

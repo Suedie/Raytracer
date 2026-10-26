@@ -1,6 +1,6 @@
 #include "lights.h"
 #include <stdlib.h>
-#include "vector.h"
+#include "vector3.h"
 
 
 lights lights_create(void) {
