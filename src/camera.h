@@ -16,8 +16,8 @@ typedef struct {
     float viewport_distance;
 } camera;
 
-camera create_default_camera(void);
-vector3 canvas_to_viewport (int width, int height, int x, int y, camera c);
+camera camera_create_default(void);
+vector3 camera_viewport_coord_from_canvas (int width, int height, int x, int y, camera c);
 
 
 #endif

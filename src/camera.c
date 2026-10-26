@@ -1,7 +1,7 @@
 #include "camera.h"
 #include "vector.h"
 
-camera create_default_camera(void) {
+camera camera_create_default(void) {
     vector3 position        = {0.0f, 0.0f, 0.0f,};
     vector3 direction       = {0.0f, 0.0f, 1.0f};
     vector3 up_direction    = {0.0f, 1.0f, 0.0f};
@@ -14,7 +14,7 @@ camera create_default_camera(void) {
     return c;
 }
 
-vector3 canvas_to_viewport (int width, int height, int x, int y, camera c) {
+vector3 camera_viewport_coord_from_canvas (int width, int height, int x, int y, camera c) {
     float viewport_x    = (float) x * (c.viewport_width / (float) width);
     float viewport_y    = (float) y * (c.viewport_height / (float) height);
 

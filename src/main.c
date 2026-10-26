@@ -11,7 +11,7 @@
 
 int main () {
 
-    camera cam = create_default_camera();
+    camera cam = camera_create_default();
     canvas *canv = canvas_create(1080, 1080);
     if (!canv) return 1;
 
@@ -20,19 +20,19 @@ int main () {
     sphere sphere_green     = (sphere) {(vector3) {-2.0f, 0.0f, 4.0f}, 1.0f, pixel_create(0, 255, 0)};
     sphere sphere_yellow    = (sphere) {(vector3) {0.0f, -5001.0f, 0.0f}, 5000.0f, pixel_create(255, 255, 0)};
 
-    scene *scen = create_scene();
+    scene *scen = scene_create();
     if (!scen) return 1;
 
-    add_sphere_to_scene(scen, sphere_red);
-    add_sphere_to_scene(scen, sphere_blue);
-    add_sphere_to_scene(scen, sphere_green);
-    add_sphere_to_scene(scen, sphere_yellow);
+    scene_add_sphere(scen, sphere_red);
+    scene_add_sphere(scen, sphere_blue);
+    scene_add_sphere(scen, sphere_green);
+    scene_add_sphere(scen, sphere_yellow);
 
     point_light pl = {{2.0f, 1.0f, 0.0f}, 0.6f};
 
-    add_point_light(&scen->l, pl);
-    set_ambient_light(&scen->l, (ambient_light){0.2f});
-    set_directional_light(&scen->l, (directional_light) {{1.0f, 4.0f, 4.0f}, 0.2f});
+    light_add_point(&scen->l, pl);
+    light_set_ambient(&scen->l, (ambient_light){0.2f});
+    light_set_directional(&scen->l, (directional_light) {{1.0f, 4.0f, 4.0f}, 0.2f});
 
     render_scene_to_canvas (canv, cam, *scen);
 

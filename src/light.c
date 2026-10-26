@@ -13,7 +13,7 @@ lights create_lights(void) {
     return l;
 }
 
-void add_point_light(lights *l, point_light p) {
+void light_add_point(lights *l, point_light p) {
     if (l->point_light_count >= l->point_light_capacity) {
         int new_cap;
         if (l->point_light_capacity <= 0) {
@@ -34,15 +34,15 @@ void add_point_light(lights *l, point_light p) {
     l->point_light_count++;
 }
 
-void set_directional_light(lights *l, directional_light dl) {
+void light_set_directional(lights *l, directional_light dl) {
     l->dl = dl;
 }
 
-void set_ambient_light (lights *l, ambient_light al) {
+void light_set_ambient (lights *l, ambient_light al) {
     l->al = al;
 }
 
-float compute_light(lights *l, vector3 p, vector3 n) {
+float light_compute(lights *l, vector3 p, vector3 n) {
     float intensity = 0.0f;
     intensity += l->al.intensity;
     vector3 L = l->dl.direction;

@@ -40,7 +40,7 @@ pixel pixel_add(pixel p, pixel q) {
     return (pixel){red, green, blue};
 }
 
-void put_pixel(canvas *canvas, int x, int y, pixel colour) {
+void pixel_put(canvas *canvas, int x, int y, pixel colour) {
     int width = canvas->width;
     int height = canvas->height;
 

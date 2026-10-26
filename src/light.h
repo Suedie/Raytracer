@@ -27,9 +27,9 @@ typedef struct {
 } lights;
 
 lights create_lights(void);
-void add_point_light(lights *l, point_light p);
-void set_directional_light(lights *l, directional_light dl);
-void set_ambient_light (lights *l, ambient_light al);
-float compute_light(lights *l, vector3 p, vector3 n);
+void light_add_point(lights *l, point_light p);
+void light_set_directional(lights *l, directional_light dl);
+void light_set_ambient (lights *l, ambient_light al);
+float light_compute(lights *l, vector3 p, vector3 n);
 
 #endif
