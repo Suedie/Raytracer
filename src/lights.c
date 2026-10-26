@@ -34,7 +34,7 @@ void lights_add_point(lights *l, point_light p) {
     l->point_light_count++;
 }
 
-void light_set_directional(lights *l, directional_light dl) {
+void lights_set_directional(lights *l, directional_light dl) {
     l->dl = dl;
 }
 

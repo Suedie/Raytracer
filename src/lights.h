@@ -1,5 +1,5 @@
-#ifndef LIGHT_H
-#define LIGHT_H
+#ifndef LIGHTS_H
+#define LIGHTS_H
 
 #include "vector.h"
 
@@ -28,7 +28,7 @@ typedef struct {
 
 lights lights_create(void);
 void lights_add_point(lights *l, point_light p);
-void light_set_directional(lights *l, directional_light dl);
+void lights_set_directional(lights *l, directional_light dl);
 void lights_set_ambient (lights *l, ambient_light al);
 float lights_compute(lights *l, vector3 p, vector3 n);
 
