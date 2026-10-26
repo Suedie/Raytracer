@@ -46,16 +46,16 @@ float compute_light(lights *l, vector3 p, vector3 n) {
     float intensity = 0.0f;
     intensity += l->al.intensity;
     vector3 L = l->dl.direction;
-    float n_dot_l = vector_dot(n, L);
+    float n_dot_l = vector3_dot(n, L);
     if  (n_dot_l > 0) {
-        intensity += l->dl.intensity * n_dot_l / (vector_length(n) * vector_length(L));
+        intensity += l->dl.intensity * n_dot_l / (vector3_length(n) * vector3_length(L));
     }
 
     for (int i = 0; i < l->point_light_count; i++) {
-        L = vector_sub(l->pl[i].position, p);
-        n_dot_l = vector_dot(n, L);
+        L = vector3_sub(l->pl[i].position, p);
+        n_dot_l = vector3_dot(n, L);
         if  (n_dot_l > 0) {
-            intensity += l->pl[i].intensity * n_dot_l / (vector_length(n) * vector_length(L));
+            intensity += l->pl[i].intensity * n_dot_l / (vector3_length(n) * vector3_length(L));
         }
     }
 
