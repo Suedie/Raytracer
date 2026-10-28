@@ -54,8 +54,8 @@ pixel render_trace_ray (vector3 origin, scene s, vector3 direction, float t_min,
 }
 
 void render_scene_to_canvas (canvas *cv, camera cam, scene s) {
-    for (int x = -cv->width / 2; x < cv->width / 2; x++) {
-        for (int y = -cv->height / 2; y < cv->height / 2; y++) {
+    for (int y = -cv->height / 2; y < cv->height / 2; y++) {
+        for (int x = -cv->width / 2; x < cv->width / 2; x++) {
             vector3 direction = camera_viewport_coord_from_canvas(cv->width, cv->height, x, y, cam);
             pixel colour = render_trace_ray(cam.position, s, direction, 1, INFINITY);
             pixel_put(cv, x, y, colour);
