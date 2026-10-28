@@ -30,9 +30,9 @@ int main () {
 
     point_light pl = {{2.0f, 1.0f, 0.0f}, 0.6f};
 
-    lights_add_point(&scen->l, pl);
-    lights_set_ambient(&scen->l, (ambient_light){0.2f});
-    lights_set_directional(&scen->l, (directional_light) {{1.0f, 4.0f, 4.0f}, 0.2f});
+    lights_add_point(&scen->scene_lights, pl);
+    lights_set_ambient(&scen->scene_lights, (ambient_light){0.2f});
+    lights_set_directional(&scen->scene_lights, (directional_light) {{1.0f, 4.0f, 4.0f}, 0.2f});
 
     render_scene_to_canvas (canv, cam, *scen);
 

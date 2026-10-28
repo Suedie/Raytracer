@@ -9,7 +9,7 @@ typedef struct {
     int sphere_count;
     int sphere_capacity;
 
-    lights l;
+    lights scene_lights;
 } scene;
 
 scene *scene_create (void);
