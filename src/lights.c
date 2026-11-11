@@ -42,20 +42,20 @@ void lights_set_ambient (lights *l, ambient_light ambient) {
     l->ambient = ambient;
 }
 
-float lights_compute(lights *scene_lights, vector3 point, vector3 n) {
+float lights_compute(lights *scene_lights, vector3 point, vector3 normal) {
     float intensity = 0.0f;
     intensity += scene_lights->ambient.intensity;
-    vector3 L = scene_lights->directional.direction;
-    float n_dot_l = vector3_dot(n, L);
+    vector3 light_direction = scene_lights->directional.direction;
+    float n_dot_l = vector3_dot(normal, light_direction);
     if  (n_dot_l > 0) {
-        intensity += scene_lights->directional.intensity * n_dot_l / (vector3_length(n) * vector3_length(L));
+        intensity += scene_lights->directional.intensity * n_dot_l / (vector3_length(normal) * vector3_length(light_direction));
     }
 
     for (int i = 0; i < scene_lights->point_light_count; i++) {
-        L = vector3_sub(scene_lights->point_lights[i].position, point);
-        n_dot_l = vector3_dot(n, L);
+        light_direction = vector3_sub(scene_lights->point_lights[i].position, point);
+        n_dot_l = vector3_dot(normal, light_direction);
         if  (n_dot_l > 0) {
-            intensity += scene_lights->point_lights[i].intensity * n_dot_l / (vector3_length(n) * vector3_length(L));
+            intensity += scene_lights->point_lights[i].intensity * n_dot_l / (vector3_length(normal) * vector3_length(light_direction));
         }
     }
 
