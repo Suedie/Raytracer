@@ -19,17 +19,17 @@ typedef struct {
 
 
 typedef struct {
-    point_light *pl;
+    point_light *point_lights;
     int point_light_count;
     int point_light_capacity;
-    directional_light dl;
-    ambient_light al;
+    directional_light directional;
+    ambient_light ambient;
 } lights;
 
 lights lights_create(void);
-void lights_add_point(lights *l, point_light p);
-void lights_set_directional(lights *l, directional_light dl);
-void lights_set_ambient (lights *l, ambient_light al);
-float lights_compute(lights *l, vector3 p, vector3 n);
+void lights_add_point(lights *l, point_light pl);
+void lights_set_directional(lights *l, directional_light directional);
+void lights_set_ambient (lights *l, ambient_light ambient);
+float lights_compute(lights *l, vector3 point, vector3 n);
 
 #endif

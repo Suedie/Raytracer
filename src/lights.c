@@ -13,7 +13,7 @@ lights lights_create(void) {
     return l;
 }
 
-void lights_add_point(lights *l, point_light p) {
+void lights_add_point(lights *l, point_light pl) {
     if (l->point_light_count >= l->point_light_capacity) {
         int new_cap;
         if (l->point_light_capacity <= 0) {
@@ -22,40 +22,40 @@ void lights_add_point(lights *l, point_light p) {
             new_cap = l->point_light_capacity * 2;
         }
 
-        point_light *new_point_lights = realloc(l->pl, new_cap * sizeof(*l->pl));
+        point_light *new_point_lights = realloc(l->point_lights, new_cap * sizeof(*l->point_lights));
         if (!new_point_lights) {
             return;
         }
-        l->pl = new_point_lights;
+        l->point_lights = new_point_lights;
         l->point_light_capacity = new_cap;
     }
 
-    l->pl[l->point_light_count] = p;
+    l->point_lights[l->point_light_count] = pl;
     l->point_light_count++;
 }
 
-void lights_set_directional(lights *l, directional_light dl) {
-    l->dl = dl;
+void lights_set_directional(lights *l, directional_light directional) {
+    l->directional = directional;
 }
 
-void lights_set_ambient (lights *l, ambient_light al) {
-    l->al = al;
+void lights_set_ambient (lights *l, ambient_light ambient) {
+    l->ambient = ambient;
 }
 
-float lights_compute(lights *l, vector3 p, vector3 n) {
+float lights_compute(lights *scene_lights, vector3 point, vector3 n) {
     float intensity = 0.0f;
-    intensity += l->al.intensity;
-    vector3 L = l->dl.direction;
+    intensity += scene_lights->ambient.intensity;
+    vector3 L = scene_lights->directional.direction;
     float n_dot_l = vector3_dot(n, L);
     if  (n_dot_l > 0) {
-        intensity += l->dl.intensity * n_dot_l / (vector3_length(n) * vector3_length(L));
+        intensity += scene_lights->directional.intensity * n_dot_l / (vector3_length(n) * vector3_length(L));
     }
 
-    for (int i = 0; i < l->point_light_count; i++) {
-        L = vector3_sub(l->pl[i].position, p);
+    for (int i = 0; i < scene_lights->point_light_count; i++) {
+        L = vector3_sub(scene_lights->point_lights[i].position, point);
         n_dot_l = vector3_dot(n, L);
         if  (n_dot_l > 0) {
-            intensity += l->pl[i].intensity * n_dot_l / (vector3_length(n) * vector3_length(L));
+            intensity += scene_lights->point_lights[i].intensity * n_dot_l / (vector3_length(n) * vector3_length(L));
         }
     }
 
