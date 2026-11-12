@@ -82,7 +82,7 @@ float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 v
 
         //Specular
         if (specular != -1.0f) {
-            vector3 reflection = reflect_ray(reflection, normal);
+            vector3 reflection = reflect_ray(light_direction, normal);
             float r_dot_v = vector3_dot(reflection, view);
             if (r_dot_v > 0) {
                 intensity += s->scene_lights.point_lights[i].intensity * powf(r_dot_v / (vector3_length(reflection) * vector3_length(view)), specular);
