@@ -6,6 +6,7 @@
 #include "scene.h"
 #include <math.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "lights.h"
 
 intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere s) {
@@ -27,7 +28,7 @@ intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere
     return (intersect) {t1, t2, true};
 }
 
-closest_intersect render_closest_intersection(vector3 origin, scene *s, vector3 direction, float t_min, float t_max) {
+static closest_intersect closest_intersecting_sphere(vector3 origin, scene *s, vector3 direction, float t_min, float t_max) {
     float closest_t = INFINITY;
     sphere *closest_sphere = NULL;
     for (int i = 0; i < s->sphere_count; i++) {
@@ -48,6 +49,7 @@ closest_intersect render_closest_intersection(vector3 origin, scene *s, vector3 
 }
 
 float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 view, float specular) {
+    sphere *blocking_sphere = NULL;
     float intensity = 0.0f;
 
     //Ambient
@@ -55,13 +57,18 @@ float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 v
 
     //Directional
     vector3 light_direction = s->scene_lights.directional.direction;
+    blocking_sphere = closest_intersecting_sphere(point, s, light_direction, 0.001f, INFINITY).closest_sphere;
     float n_dot_l = vector3_dot(normal, light_direction);
-    if  (n_dot_l > 0) {
+    if  (n_dot_l > 0 && blocking_sphere == NULL) {
         intensity += s->scene_lights.directional.intensity * n_dot_l / (vector3_length(normal) * vector3_length(light_direction));
     }
 
     for (int i = 0; i < s->scene_lights.point_light_count; i++) {
         light_direction = vector3_sub(s->scene_lights.point_lights[i].position, point);
+        blocking_sphere = closest_intersecting_sphere(point, s, light_direction, 0.001f, 1.0f).closest_sphere;
+        if (blocking_sphere != NULL) {
+            continue;
+        }
         n_dot_l = vector3_dot(normal, light_direction);
 
         //Diffuse
@@ -79,13 +86,11 @@ float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 v
         }
 
     }
-
-
     return intensity;
 }
 
 pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min, float t_max) {
-    closest_intersect result = render_closest_intersection(origin, s, direction, t_min, t_max);
+    closest_intersect result = closest_intersecting_sphere(origin, s, direction, t_min, t_max);
     float closest_t = result.closest_t;
     sphere *closest_sphere = result.closest_sphere;
 
