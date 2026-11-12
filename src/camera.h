@@ -7,6 +7,7 @@ static const float VIEWPORT_DISTANCE = 1.0f;
 
 
 typedef struct {
+    float yaw;
     vector3 position;
     vector3 direction;
     vector3 up_direction;
@@ -22,5 +23,7 @@ void camera_move_forward(camera *cam);
 void camera_move_backward(camera *cam);
 void camera_move_right(camera *cam);
 void camera_move_left(camera *cam);
+void camera_yaw_left(camera *cam);
+void camera_yaw_right(camera *cam);
 
 #endif

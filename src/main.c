@@ -68,6 +68,14 @@ int main () {
             camera_move_left(&cam);
             has_moved = true;
         }
+        if (IsKeyDown(KEY_LEFT)) {
+            camera_yaw_left(&cam);
+            has_moved = true;
+        }
+        if (IsKeyDown(KEY_RIGHT)) {
+            camera_yaw_right(&cam);
+            has_moved = true;
+        }
 
         if (has_moved) {
             render_scene_to_canvas (canv, &cam, scen);
