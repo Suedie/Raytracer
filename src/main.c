@@ -34,7 +34,7 @@ int main () {
     lights_set_ambient(&scen->scene_lights, (ambient_light){0.2f});
     lights_set_directional(&scen->scene_lights, (directional_light) {{1.0f, 4.0f, 4.0f}, 0.2f});
 
-    render_scene_to_canvas (canv, cam, *scen);
+    render_scene_to_canvas (canv, cam, scen);
 
     //Render code
     InitWindow(canv->width, canv->height, "Raytracer");

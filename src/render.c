@@ -8,6 +8,11 @@
 #include <stdbool.h>
 #include "lights.h"
 
+typedef struct {
+    float closest_t;
+    sphere *closest_sphere;
+} closest_intersect;
+
 intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere s) {
     float radius = s.radius;
     vector3 center_to_origin = vector3_sub(origin, s.centre);
@@ -27,22 +32,31 @@ intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere
     return (intersect) {t1, t2, true};
 }
 
-pixel render_trace_ray (vector3 origin, scene s, vector3 direction, float t_min, float t_max) {
+static closest_intersect render_closest_intersection(vector3 origin, scene *s, vector3 direction, float t_min, float t_max) {
     float closest_t = INFINITY;
     sphere *closest_sphere = NULL;
-    for (int i = 0; i < s.sphere_count; i++) {
-        intersect intersection = render_intersect_ray_sphere(origin, direction, s.spheres[i]);
+    for (int i = 0; i < s->sphere_count; i++) {
+        intersect intersection = render_intersect_ray_sphere(origin, direction, s->spheres[i]);
         if (!intersection.hit)  continue;
 
         if (intersection.t1 >= t_min && intersection.t1 <= t_max && intersection.t1 < closest_t) {
             closest_t = intersection.t1;
-            closest_sphere = &s.spheres[i];
+            closest_sphere = &s->spheres[i];
         }
         if (intersection.t2 >= t_min && intersection.t2 <= t_max && intersection.t2 < closest_t) {
             closest_t = intersection.t2;
-            closest_sphere = &s.spheres[i];
+            closest_sphere = &s->spheres[i];
         }
     }
+
+    return (closest_intersect) {closest_t, closest_sphere};
+}
+
+pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min, float t_max) {
+    closest_intersect result = render_closest_intersection(origin, s, direction, t_min, t_max);
+    float closest_t = result.closest_t;
+    sphere *closest_sphere = result.closest_sphere;
+
     if (closest_sphere == NULL) {
         return BACKGROUND_COLOUR;
     }
@@ -50,10 +64,10 @@ pixel render_trace_ray (vector3 origin, scene s, vector3 direction, float t_min,
     vector3 p = vector3_add(origin, vector3_scale(closest_t, direction));
     vector3 n = vector3_sub(p, closest_sphere->centre);
     n = vector3_scale(1.0f / vector3_length(n), n);
-    return pixel_scalar_multiply(lights_compute(&s.scene_lights, p, n, vector3_scale(-1.0f, direction), closest_sphere->specular), closest_sphere->colour);
+    return pixel_scalar_multiply(lights_compute(&s->scene_lights, p, n, vector3_scale(-1.0f, direction), closest_sphere->specular), closest_sphere->colour);
 }
 
-void render_scene_to_canvas (canvas *cv, camera cam, scene s) {
+void render_scene_to_canvas (canvas *cv, camera cam, scene *s) {
     for (int y = -cv->height / 2; y < cv->height / 2; y++) {
         for (int x = -cv->width / 2; x < cv->width / 2; x++) {
             vector3 direction = camera_viewport_coord_from_canvas(cv->width, cv->height, x, y, cam);
