@@ -1,9 +1,5 @@
 #include "lights.h"
-#include <math.h>
 #include <stdlib.h>
-#include "scene.h"
-#include "vector3.h"
-#include "sphere.h"
 
 
 lights lights_create(void) {
