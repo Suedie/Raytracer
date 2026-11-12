@@ -47,6 +47,43 @@ closest_intersect render_closest_intersection(vector3 origin, scene *s, vector3 
     return (closest_intersect) {closest_t, closest_sphere};
 }
 
+float lights_compute(scene *s, vector3 point, vector3 normal, vector3 view, float specular) {
+    float intensity = 0.0f;
+
+    //Ambient
+    intensity += s->scene_lights.ambient.intensity;
+
+    //Directional
+    vector3 light_direction = s->scene_lights.directional.direction;
+    float n_dot_l = vector3_dot(normal, light_direction);
+    if  (n_dot_l > 0) {
+        intensity += s->scene_lights.directional.intensity * n_dot_l / (vector3_length(normal) * vector3_length(light_direction));
+    }
+
+    for (int i = 0; i < s->scene_lights.point_light_count; i++) {
+        light_direction = vector3_sub(s->scene_lights.point_lights[i].position, point);
+        n_dot_l = vector3_dot(normal, light_direction);
+
+        //Diffuse
+        if  (n_dot_l > 0) {
+            intensity += s->scene_lights.point_lights[i].intensity * n_dot_l / (vector3_length(normal) * vector3_length(light_direction));
+        }
+
+        //Specular
+        if (specular != -1.0f) {
+            vector3 reflection = vector3_sub(vector3_scale(2, vector3_scale(n_dot_l, normal)), light_direction);
+            float r_dot_v = vector3_dot(reflection, view);
+            if (r_dot_v > 0) {
+                intensity += s->scene_lights.point_lights[i].intensity * powf(r_dot_v / (vector3_length(reflection) * vector3_length(view)), specular);
+            }
+        }
+
+    }
+
+
+    return intensity;
+}
+
 pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min, float t_max) {
     closest_intersect result = render_closest_intersection(origin, s, direction, t_min, t_max);
     float closest_t = result.closest_t;
@@ -59,7 +96,7 @@ pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min
     vector3 p = vector3_add(origin, vector3_scale(closest_t, direction));
     vector3 n = vector3_sub(p, closest_sphere->centre);
     n = vector3_scale(1.0f / vector3_length(n), n);
-    return pixel_scalar_multiply(lights_compute(&s->scene_lights, p, n, vector3_scale(-1.0f, direction), closest_sphere->specular), closest_sphere->colour);
+    return pixel_scalar_multiply(lights_compute(s, p, n, vector3_scale(-1.0f, direction), closest_sphere->specular), closest_sphere->colour);
 }
 
 void render_scene_to_canvas (canvas *cv, camera cam, scene *s) {

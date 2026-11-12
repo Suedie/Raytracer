@@ -24,5 +24,6 @@ intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere
 closest_intersect render_closest_intersection(vector3 origin, scene *s, vector3 direction, float t_min, float t_max);
 pixel render_trace_ray (vector3 cameraPosition, scene *s, vector3 direction, float t_min, float t_max);
 void render_scene_to_canvas (canvas *cv, camera c, scene *s);
+float lights_compute(scene *scene, vector3 point, vector3 normal, vector3 view, float specular);
 
 #endif
