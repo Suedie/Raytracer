@@ -10,6 +10,7 @@
 
 
 int main () {
+
     camera cam = camera_create_default();
     canvas *canv = canvas_create(1080, 1080);
     if (!canv) return 1;
@@ -50,17 +51,27 @@ int main () {
     Texture2D texture = LoadTextureFromImage(image);
 
     while (!WindowShouldClose()) {
+        bool has_moved = false;
         if (IsKeyDown(KEY_W)) {
             camera_move_forward(&cam);
+            has_moved = true;
         }
         if (IsKeyDown(KEY_S)) {
             camera_move_backward(&cam);
+            has_moved = true;
         }
         if (IsKeyDown(KEY_D)) {
             camera_move_right(&cam);
+            has_moved = true;
         }
         if (IsKeyDown(KEY_A)) {
             camera_move_left(&cam);
+            has_moved = true;
+        }
+
+        if (has_moved) {
+            render_scene_to_canvas (canv, &cam, scen);
+            UpdateTexture(texture, canv->pixels);
         }
 
         BeginDrawing();
