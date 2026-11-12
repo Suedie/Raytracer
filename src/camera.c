@@ -20,3 +20,19 @@ vector3 camera_viewport_coord_from_canvas (int width, int height, int x, int y, 
 
     return (vector3) {viewport_x, viewport_y, c.viewport_distance};
 }
+
+void move_forward(camera *cam) {
+    cam->position.z += 1.0f;
+}
+
+void move_backward(camera *cam) {
+    cam->position.z -= 1.0f;
+}
+
+void move_right(camera *cam) {
+    cam->position.x += 1.0f;
+}
+
+void move_left(camera *cam) {
+    cam->position.x -= 1.0f;
+}

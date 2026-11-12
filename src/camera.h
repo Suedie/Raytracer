@@ -18,6 +18,9 @@ typedef struct {
 
 camera camera_create_default(void);
 vector3 camera_viewport_coord_from_canvas (int width, int height, int x, int y, camera c);
-
+void move_forward(camera *cam);
+void move_backward(camera *cam);
+void move_right(camera *cam);
+void move_left(camera *cam);
 
 #endif
