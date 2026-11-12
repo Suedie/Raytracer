@@ -47,7 +47,7 @@ closest_intersect render_closest_intersection(vector3 origin, scene *s, vector3 
     return (closest_intersect) {closest_t, closest_sphere};
 }
 
-float lights_compute(scene *s, vector3 point, vector3 normal, vector3 view, float specular) {
+float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 view, float specular) {
     float intensity = 0.0f;
 
     //Ambient
@@ -96,7 +96,7 @@ pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min
     vector3 p = vector3_add(origin, vector3_scale(closest_t, direction));
     vector3 n = vector3_sub(p, closest_sphere->centre);
     n = vector3_scale(1.0f / vector3_length(n), n);
-    return pixel_scalar_multiply(lights_compute(s, p, n, vector3_scale(-1.0f, direction), closest_sphere->specular), closest_sphere->colour);
+    return pixel_scalar_multiply(render_compute_lighting(s, p, n, vector3_scale(-1.0f, direction), closest_sphere->specular), closest_sphere->colour);
 }
 
 void render_scene_to_canvas (canvas *cv, camera cam, scene *s) {
