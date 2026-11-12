@@ -30,6 +30,6 @@ lights lights_create(void);
 void lights_add_point(lights *l, point_light pl);
 void lights_set_directional(lights *l, directional_light directional);
 void lights_set_ambient (lights *l, ambient_light ambient);
-float lights_compute(lights *l, vector3 point, vector3 n);
+float lights_compute(lights *scene_lights, vector3 point, vector3 normal, float specular);
 
 #endif
