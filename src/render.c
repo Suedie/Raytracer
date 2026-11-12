@@ -9,21 +9,36 @@
 #include <stdint.h>
 #include "lights.h"
 
+//Changed from float to double because imprecision would make the giant sphere reflect on itself.
+//In future should switch back to float, replace giant sphere with floor plane, as float is
+//GPU optimised
 intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere s) {
-    float radius = s.radius;
-    vector3 center_to_origin = vector3_sub(origin, s.centre);
+    double radius = s.radius;
+    /*vector3 center_to_origin = vector3_sub(origin, s.centre);
     
     float a = vector3_dot(direction, direction);
     float b = 2 * vector3_dot(center_to_origin, direction);
     float c = vector3_dot(center_to_origin, center_to_origin) - radius * radius;
+    */
 
-    float discriminant = (b * b) - (4 * a * c);
-    if (discriminant < 0) {
+    double ox = (double) origin.x - s.centre.x;
+    double oy = (double) origin.y - s.centre.y;
+    double oz = (double) origin.z - s.centre.z;
+    double dx = direction.x;
+    double dy = direction.y;
+    double dz = direction.z;
+
+    double a = dx * dx + dy * dy + dz * dz;
+    double b = 2.0 * (ox * dx + oy * dy + oz * dz);
+    double c = (ox * ox + oy * oy + oz * oz) - radius * radius;
+
+    double discriminant = (b * b) - (4.0 * a * c);
+    if (discriminant < 0.0) {
         return (intersect) {INFINITY, INFINITY, false};
     }
 
-    float t1 = (-b + sqrtf(discriminant)) / (2 * a);
-    float t2 = (-b - sqrtf(discriminant)) / (2 * a);
+    float t1 = (float) (-b + sqrt(discriminant)) / (2.0 * a);
+    float t2 = (float) (-b - sqrt(discriminant)) / (2.0 * a);
 
     return (intersect) {t1, t2, true};
 }
