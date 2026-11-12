@@ -9,6 +9,6 @@ typedef struct {
     vector3 mc;
 } matrix3x3;
 
-matrix3x3 matrix_vector_mult(matrix3x3 a, vector3 b);
+vector3 matrix_vector_mult(matrix3x3 a, vector3 b);
 
 #endif
