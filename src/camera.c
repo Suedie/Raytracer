@@ -7,6 +7,10 @@ static void add_yaw(camera *cam, float yaw) {
     cam->direction = (vector3) {sinf(cam->yaw), cam->direction.y , cosf(cam->yaw)};
 }
 
+static vector3 camera_get_right(camera *cam) {
+    return vector3_normalize(vector3_cross(vector3_normalize(cam->up_direction), vector3_normalize(cam->direction)));
+}
+
 camera camera_create_default(void) {
     float yaw =  0.0f;
     vector3 position        = {0.0f, 0.0f, 0.0f,};
@@ -29,19 +33,19 @@ vector3 camera_viewport_coord_from_canvas (int width, int height, int x, int y, 
 }
 
 void camera_move_forward(camera *cam) {
-    cam->position.z += 1.0f;
+    cam->position = vector3_add(cam->position, vector3_normalize(cam->direction));
 }
 
 void camera_move_backward(camera *cam) {
-    cam->position.z -= 1.0f;
+    cam->position = vector3_sub(cam->position, vector3_normalize(cam->direction));
 }
 
 void camera_move_right(camera *cam) {
-    cam->position.x += 1.0f;
+    cam->position = vector3_add(cam->position, camera_get_right(cam));
 }
 
 void camera_move_left(camera *cam) {
-    cam->position.x -= 1.0f;
+    cam->position = vector3_sub(cam->position, camera_get_right(cam));
 }
 
 void camera_yaw_left(camera *cam) {
