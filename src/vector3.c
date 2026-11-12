@@ -41,3 +41,11 @@ vector3 vector3_normalize(vector3 a) {
     float len = vector3_length(a);
     return vector3_scale(1.0f / len, a);
 }
+
+vector3 vector3_cross(vector3 a, vector3 b) {
+    float cx = a.y * b.z - a.z * b.y;
+    float cy = a.z * b.x - a.x * b.z;
+    float cz = a.x * b.y - a.y * b.x;
+
+    return (vector3) {cx, cy, cz};
+}

@@ -11,5 +11,6 @@ vector3 vector3_scale(float scalar, vector3 v);
 float vector3_dot(vector3 a, vector3 b);
 float vector3_length(vector3 a);
 vector3 vector3_normalize(vector3 a);
+vector3 vector3_cross(vector3 a, vector3 b);
 
 #endif
