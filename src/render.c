@@ -49,7 +49,7 @@ static closest_intersect closest_intersecting_sphere(vector3 origin, scene *s, v
 }
 
 static vector3 reflect_ray(vector3 reflection, vector3 normal) {
-    vector3_sub(vector3_scale(2, vector3_scale(vector3_dot(normal, reflection), normal)), reflection);
+    return vector3_sub(vector3_scale(2, vector3_scale(vector3_dot(normal, reflection), normal)), reflection);
 }
 
 float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 view, float specular) {
