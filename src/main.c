@@ -51,6 +51,19 @@ int main () {
     Texture2D texture = LoadTextureFromImage(image);
 
     while (!WindowShouldClose()) {
+        if (IsKeyDown(KEY_W)) {
+            camera_move_forward(&cam);
+        }
+        if (IsKeyDown(KEY_S)) {
+            camera_move_backward(&cam);
+        }
+        if (IsKeyDown(KEY_D)) {
+            camera_move_right(&cam);
+        }
+        if (IsKeyDown(KEY_A)) {
+            camera_move_left(&cam);
+        }
+
         BeginDrawing();
         ClearBackground(BLACK);
         DrawTexture(texture, 0, 0, WHITE);
