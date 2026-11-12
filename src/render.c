@@ -93,7 +93,7 @@ float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 v
     return intensity;
 }
 
-pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min, float t_max) {
+pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min, float t_max, int recursion_depth) {
     closest_intersect result = closest_intersecting_sphere(origin, s, direction, t_min, t_max);
     float closest_t = result.closest_t;
     sphere *closest_sphere = result.closest_sphere;
@@ -102,17 +102,27 @@ pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min
         return BACKGROUND_COLOUR;
     }
 
-    vector3 p = vector3_add(origin, vector3_scale(closest_t, direction));
-    vector3 n = vector3_sub(p, closest_sphere->centre);
-    n = vector3_scale(1.0f / vector3_length(n), n);
-    return pixel_scalar_multiply(render_compute_lighting(s, p, n, vector3_scale(-1.0f, direction), closest_sphere->specular), closest_sphere->colour);
+    vector3 point = vector3_add(origin, vector3_scale(closest_t, direction));
+    vector3 normal = vector3_sub(point, closest_sphere->centre);
+    normal = vector3_scale(1.0f / vector3_length(normal), normal);
+    pixel local_colour = pixel_scalar_multiply(render_compute_lighting(s, point, normal, vector3_scale(-1.0f, direction), closest_sphere->specular), closest_sphere->colour);
+
+    float reflection = closest_sphere->reflective;
+    if (reflection <= 0.0f || recursion_depth <= 0) {
+        return local_colour;
+    }
+
+    vector3 reflected_ray = reflect_ray(vector3_scale(-1.0f, direction), normal);
+    pixel reflected_colour = render_trace_ray(point, s, reflected_ray, 0.001f, INFINITY, recursion_depth - 1);
+
+    return pixel_add(pixel_scalar_multiply(1.0f - reflection, local_colour), pixel_scalar_multiply(reflection, reflected_colour));
 }
 
 void render_scene_to_canvas (canvas *cv, camera cam, scene *s) {
     for (int y = -cv->height / 2; y < cv->height / 2; y++) {
         for (int x = -cv->width / 2; x < cv->width / 2; x++) {
             vector3 direction = camera_viewport_coord_from_canvas(cv->width, cv->height, x, y, cam);
-            pixel colour = render_trace_ray(cam.position, s, direction, 1, INFINITY);
+            pixel colour = render_trace_ray(cam.position, s, direction, 1, INFINITY, 3);
             pixel_put(cv, x, y, colour);
         }
     }
