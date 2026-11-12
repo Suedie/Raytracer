@@ -48,6 +48,10 @@ static closest_intersect closest_intersecting_sphere(vector3 origin, scene *s, v
     return (closest_intersect) {closest_t, closest_sphere};
 }
 
+static vector3 reflect_ray(vector3 reflection, vector3 normal) {
+    vector3_sub(vector3_scale(2, vector3_scale(vector3_dot(normal, reflection), normal)), reflection);
+}
+
 float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 view, float specular) {
     sphere *blocking_sphere = NULL;
     float intensity = 0.0f;
@@ -78,7 +82,7 @@ float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 v
 
         //Specular
         if (specular != -1.0f) {
-            vector3 reflection = vector3_sub(vector3_scale(2, vector3_scale(n_dot_l, normal)), light_direction);
+            vector3 reflection = reflect_ray(reflection, normal);
             float r_dot_v = vector3_dot(reflection, view);
             if (r_dot_v > 0) {
                 intensity += s->scene_lights.point_lights[i].intensity * powf(r_dot_v / (vector3_length(reflection) * vector3_length(view)), specular);
