@@ -1,4 +1,5 @@
 #include "lights.h"
+#include <math.h>
 #include <stdlib.h>
 #include "vector3.h"
 
@@ -42,7 +43,7 @@ void lights_set_ambient (lights *l, ambient_light ambient) {
     l->ambient = ambient;
 }
 
-float lights_compute(lights *scene_lights, vector3 point, vector3 normal) {
+float lights_compute(lights *scene_lights, vector3 point, vector3 normal, vector3 view, float specular) {
     float intensity = 0.0f;
     intensity += scene_lights->ambient.intensity;
     vector3 light_direction = scene_lights->directional.direction;
@@ -57,7 +58,18 @@ float lights_compute(lights *scene_lights, vector3 point, vector3 normal) {
         if  (n_dot_l > 0) {
             intensity += scene_lights->point_lights[i].intensity * n_dot_l / (vector3_length(normal) * vector3_length(light_direction));
         }
+
+        //Specular
+        if (specular != -1.0f) {
+            vector3 reflection = vector3_sub(vector3_scale(2, vector3_scale(n_dot_l, normal)), light_direction);
+            float r_dot_v = vector3_dot(reflection, view);
+            if (r_dot_v > 0) {
+                intensity += scene_lights->point_lights[i].intensity * powf(r_dot_v / (vector3_length(reflection) * vector3_length(view)), specular);
+            }
+        }
+
     }
+
 
     return intensity;
 }
