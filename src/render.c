@@ -1,6 +1,7 @@
 #include "render.h"
 #include "camera.h"
 #include "canvas.h"
+#include "matrix3x3.h"
 #include "sphere.h"
 #include "vector3.h"
 #include "scene.h"
@@ -133,11 +134,16 @@ pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min
     return pixel_add(pixel_scalar_multiply(1.0f - reflection, local_colour), pixel_scalar_multiply(reflection, reflected_colour));
 }
 
-void render_scene_to_canvas (canvas *cv, camera cam, scene *s) {
+void render_scene_to_canvas (canvas *cv, camera *cam, scene *s) {
+    vector3 camera_forward = vector3_normalize(cam->direction);
+    vector3 camera_right = vector3_normalize(vector3_cross(vector3_normalize(cam->up_direction), camera_forward));
+    vector3 camera_up = vector3_cross(camera_forward, camera_right);
+    matrix3x3 camera_rotation = (matrix3x3) {camera_right, camera_up, camera_forward};
+
     for (int y = -cv->height / 2; y < cv->height / 2; y++) {
         for (int x = -cv->width / 2; x < cv->width / 2; x++) {
-            vector3 direction = camera_viewport_coord_from_canvas(cv->width, cv->height, x, y, cam);
-            pixel colour = render_trace_ray(cam.position, s, direction, 1, INFINITY, 3);
+            vector3 direction = matrix_vector_mult(camera_rotation,camera_viewport_coord_from_canvas(cv->width, cv->height, x, y, *cam));
+            pixel colour = render_trace_ray(cam->position, s, direction, 1, INFINITY, 3);
             pixel_put(cv, x, y, colour);
         }
     }
