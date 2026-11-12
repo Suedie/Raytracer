@@ -10,6 +10,7 @@ typedef struct {
     float radius;
     pixel colour;
     float specular;
+    float reflective;
 } sphere;
 
 

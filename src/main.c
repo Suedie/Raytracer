@@ -15,10 +15,10 @@ int main () {
     canvas *canv = canvas_create(1080, 1080);
     if (!canv) return 1;
 
-    sphere sphere_red       = (sphere) {(vector3) {0.0f, -1.0f, 3.0f}, 1.0f, pixel_create(255, 0, 0), 500};
-    sphere sphere_blue      = (sphere) {(vector3) {2.0f, 0.0f, 4.0f}, 1.0f, pixel_create(0, 0, 255), 500};
-    sphere sphere_green     = (sphere) {(vector3) {-2.0f, 0.0f, 4.0f}, 1.0f, pixel_create(0, 255, 0), 10};
-    sphere sphere_yellow    = (sphere) {(vector3) {0.0f, -5001.0f, 0.0f}, 5000.0f, pixel_create(255, 255, 0), 1000};
+    sphere sphere_red       = (sphere) {(vector3) {0.0f, -1.0f, 3.0f}, 1.0f, pixel_create(255, 0, 0), 500, 0.2f};
+    sphere sphere_blue      = (sphere) {(vector3) {2.0f, 0.0f, 4.0f}, 1.0f, pixel_create(0, 0, 255), 500, 0.3f};
+    sphere sphere_green     = (sphere) {(vector3) {-2.0f, 0.0f, 4.0f}, 1.0f, pixel_create(0, 255, 0), 10, 0.4f};
+    sphere sphere_yellow    = (sphere) {(vector3) {0.0f, -5001.0f, 0.0f}, 5000.0f, pixel_create(255, 255, 0), 1000, 0.5f};
 
     scene *scen = scene_create();
     if (!scen) return 1;
