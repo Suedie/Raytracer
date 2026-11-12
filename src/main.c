@@ -10,7 +10,6 @@
 
 
 int main () {
-
     camera cam = camera_create_default();
     canvas *canv = canvas_create(1080, 1080);
     if (!canv) return 1;
@@ -67,6 +66,7 @@ int main () {
         BeginDrawing();
         ClearBackground(BLACK);
         DrawTexture(texture, 0, 0, WHITE);
+        DrawFPS(10, 10);
         EndDrawing();
     }
 
