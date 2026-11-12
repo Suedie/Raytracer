@@ -8,11 +8,6 @@
 #include <stdbool.h>
 #include "lights.h"
 
-typedef struct {
-    float closest_t;
-    sphere *closest_sphere;
-} closest_intersect;
-
 intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere s) {
     float radius = s.radius;
     vector3 center_to_origin = vector3_sub(origin, s.centre);
@@ -32,7 +27,7 @@ intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere
     return (intersect) {t1, t2, true};
 }
 
-static closest_intersect render_closest_intersection(vector3 origin, scene *s, vector3 direction, float t_min, float t_max) {
+closest_intersect render_closest_intersection(vector3 origin, scene *s, vector3 direction, float t_min, float t_max) {
     float closest_t = INFINITY;
     sphere *closest_sphere = NULL;
     for (int i = 0; i < s->sphere_count; i++) {
