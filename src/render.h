@@ -22,7 +22,7 @@ typedef struct {
 
 intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere s);
 pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min, float t_max, int recursion_depth);
-void render_scene_to_canvas (canvas *cv, camera c, scene *s);
+void render_scene_to_canvas (canvas *cv, camera *c, scene *s);
 float render_compute_lighting(scene *scene, vector3 point, vector3 normal, vector3 view, float specular);
 
 #endif
