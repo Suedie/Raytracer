@@ -10,7 +10,8 @@
 
 
 int main () {
-
+    bool moved_this_frame = false;
+    bool moved_last_frame = false;
     camera cam = camera_create_default();
     canvas *canv = canvas_create(1920, 1080);
     if (!canv) return 1;
@@ -34,7 +35,7 @@ int main () {
     lights_set_ambient(&scen->scene_lights, (ambient_light){0.2f});
     lights_set_directional(&scen->scene_lights, (directional_light) {{1.0f, 4.0f, 4.0f}, 0.2f});
 
-    render_scene_to_canvas (canv, &cam, scen);
+    render_scene_to_canvas (canv, &cam, scen, false);
 
     //Render code
     InitWindow(canv->width, canv->height, "Raytracer");
@@ -51,35 +52,43 @@ int main () {
     Texture2D texture = LoadTextureFromImage(image);
 
     while (!WindowShouldClose()) {
-        bool has_moved = false;
+        moved_this_frame = false;
         if (IsKeyDown(KEY_W)) {
             camera_move_forward(&cam, GetFrameTime());
-            has_moved = true;
+            moved_this_frame = true;
         }
         if (IsKeyDown(KEY_S)) {
             camera_move_backward(&cam, GetFrameTime());
-            has_moved = true;
+            moved_this_frame = true;
         }
         if (IsKeyDown(KEY_D)) {
             camera_move_right(&cam, GetFrameTime());
-            has_moved = true;
+            moved_this_frame = true;
         }
         if (IsKeyDown(KEY_A)) {
             camera_move_left(&cam, GetFrameTime());
-            has_moved = true;
+            moved_this_frame = true;
         }
         if (IsKeyDown(KEY_LEFT)) {
             camera_yaw_left(&cam, GetFrameTime());
-            has_moved = true;
+            moved_this_frame = true;
         }
         if (IsKeyDown(KEY_RIGHT)) {
             camera_yaw_right(&cam, GetFrameTime());
-            has_moved = true;
+            moved_this_frame = true;
         }
 
-        if (has_moved) {
-            render_scene_to_canvas (canv, &cam, scen);
+        if (moved_last_frame && !moved_this_frame) {
+            render_scene_to_canvas (canv, &cam, scen, false);
             UpdateTexture(texture, canv->pixels);
+            moved_last_frame = false;
+        }
+        else if (moved_this_frame) {
+            render_scene_to_canvas (canv, &cam, scen, true);
+            UpdateTexture(texture, canv->pixels);
+            moved_last_frame = true;
+        } else {
+            moved_last_frame = false;
         }
 
         BeginDrawing();

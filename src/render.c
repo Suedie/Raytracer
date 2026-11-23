@@ -170,12 +170,11 @@ pixel render_trace_ray (vector3 origin, scene *s, vector3 direction, float t_min
     return pixel_add(pixel_scalar_multiply(1.0f - reflection, local_colour), pixel_scalar_multiply(reflection, reflected_colour));
 }
 
-void render_scene_to_canvas (canvas *cv, camera *cam, scene *s) {
+void render_scene_to_canvas (canvas *cv, camera *cam, scene *s, bool subsampling) {
     vector3 camera_forward = vector3_normalize(cam->direction);
     vector3 camera_right = vector3_normalize(vector3_cross(vector3_normalize(cam->up_direction), camera_forward));
     vector3 camera_up = vector3_cross(camera_forward, camera_right);
     matrix3x3 camera_rotation = (matrix3x3) {camera_right, camera_up, camera_forward};
-    bool subsampling = true;
 
     #pragma omp parallel for 
     for (int y = -cv->height / 2; y < cv->height / 2; y++) {
