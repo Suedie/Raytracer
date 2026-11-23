@@ -63,12 +63,26 @@ static closest_intersect closest_intersecting_sphere(vector3 origin, scene *s, v
     return (closest_intersect) {closest_t, closest_sphere};
 }
 
+static bool is_occluded(vector3 origin, scene *s, vector3 direction, float t_min, float t_max) {
+    for (int i = 0; i < s->sphere_count; i++) {
+        intersect intersection = render_intersect_ray_sphere(origin, direction, s->spheres[i]);
+        if (!intersection.hit) {
+            continue;
+        }
+        
+        if ((intersection.t1 >= t_min && intersection.t1 <= t_max) || (intersection.t2 >= t_min && intersection.t2 <= t_max)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 static vector3 reflect_ray(vector3 reflection, vector3 normal) {
     return vector3_sub(vector3_scale(2, vector3_scale(vector3_dot(normal, reflection), normal)), reflection);
 }
 
 float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 view, float specular) {
-    sphere *blocking_sphere = NULL;
     float intensity = 0.0f;
 
     //Ambient
@@ -76,16 +90,16 @@ float render_compute_lighting(scene *s, vector3 point, vector3 normal, vector3 v
 
     //Directional
     vector3 light_direction = s->scene_lights.directional.direction;
-    blocking_sphere = closest_intersecting_sphere(point, s, light_direction, 0.001f, INFINITY).closest_sphere;
+    bool in_shadow = is_occluded(point, s, light_direction, 0.001f, INFINITY);
     float n_dot_l = vector3_dot(normal, light_direction);
-    if  (n_dot_l > 0 && blocking_sphere == NULL) {
+    if  (n_dot_l > 0 && !in_shadow) {
         intensity += s->scene_lights.directional.intensity * n_dot_l / (vector3_length(normal) * vector3_length(light_direction));
     }
 
     for (int i = 0; i < s->scene_lights.point_light_count; i++) {
         light_direction = vector3_sub(s->scene_lights.point_lights[i].position, point);
-        blocking_sphere = closest_intersecting_sphere(point, s, light_direction, 0.001f, 1.0f).closest_sphere;
-        if (blocking_sphere != NULL) {
+        bool in_shadow = is_occluded(point, s, light_direction, 0.001f, 1.0f);
+        if (in_shadow) {
             continue;
         }
         n_dot_l = vector3_dot(normal, light_direction);
