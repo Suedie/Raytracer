@@ -184,22 +184,25 @@ void render_scene_to_canvas (canvas *cv, camera *cam, scene *s) {
             shadow_cache[i] = -1;
         }
         if (subsampling) {
-            for (int x = -cv->width / 2; x < cv->width / 2; x = x + 3) {
-                vector3 direction = matrix_vector_mult(camera_rotation,camera_viewport_coord_from_canvas(cv->width, cv->height, x, y, *cam));
-                pixel colour = render_trace_ray(cam->position, s, direction, 1, INFINITY, 3, shadow_cache);
-                pixel_put(cv, x, y, colour);
+            int x = -cv->width / 2;
+            vector3 direction = matrix_vector_mult(camera_rotation,camera_viewport_coord_from_canvas(cv->width, cv->height, x, y, *cam));
+            pixel left = render_trace_ray(cam->position, s, direction, 1, INFINITY, 3, shadow_cache);
+            pixel_put(cv, x, y, left);
 
+            for (; x < cv->width / 2; x += 2) {
                 direction = matrix_vector_mult(camera_rotation,camera_viewport_coord_from_canvas(cv->width, cv->height, x + 2, y, *cam));
-                pixel colour2 = render_trace_ray(cam->position, s, direction, 1, INFINITY, 3, shadow_cache);
-                pixel_put(cv, x + 2, y, colour2);
+                pixel right = render_trace_ray(cam->position, s, direction, 1, INFINITY, 3, shadow_cache);
+                pixel_put(cv, x + 2, y, right);
 
-                if (colour.blue == colour2.blue && colour.green == colour2.green && colour.red == colour2.red) {
-                    pixel_put(cv, x + 1, y, colour);
+                if (left.red == right.red && left.green == right.green && left.blue == right.blue) {
+                    pixel_put(cv, x + 1, y, left);
                 } else {
                     direction = matrix_vector_mult(camera_rotation,camera_viewport_coord_from_canvas(cv->width, cv->height, x + 1, y, *cam));
-                    pixel colour = render_trace_ray(cam->position, s, direction, 1, INFINITY, 3, shadow_cache);
-                    pixel_put(cv, x + 1, y, colour);
+                    pixel mid = render_trace_ray(cam->position, s, direction, 1, INFINITY, 3, shadow_cache);
+                    pixel_put(cv, x + 1, y, mid);
                 }
+
+                left = right;
             }
         } else {
             for (int x = -cv->width / 2; x < cv->width / 2; x++) {
