@@ -14,7 +14,6 @@
 //In future should switch back to float, replace giant sphere with floor plane, as float is
 //GPU optimised
 intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere s) {
-    double radius = s.radius;
     /*vector3 center_to_origin = vector3_sub(origin, s.centre);
     
     float a = vector3_dot(direction, direction);
@@ -31,7 +30,7 @@ intersect render_intersect_ray_sphere (vector3 origin, vector3 direction, sphere
 
     double a = dx * dx + dy * dy + dz * dz;
     double b = 2.0 * (ox * dx + oy * dy + oz * dz);
-    double c = (ox * ox + oy * oy + oz * oz) - radius * radius;
+    double c = (ox * ox + oy * oy + oz * oz) - s.radius_sqr;
 
     double discriminant = (b * b) - (4.0 * a * c);
     if (discriminant < 0.0) {
