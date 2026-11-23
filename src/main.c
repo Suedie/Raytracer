@@ -12,7 +12,7 @@
 int main () {
 
     camera cam = camera_create_default();
-    canvas *canv = canvas_create(1080, 1080);
+    canvas *canv = canvas_create(1920, 1080);
     if (!canv) return 1;
 
     sphere sphere_red       = construct_sphere((vector3) {0.0f, -1.0f, 3.0f}, 1.0f, pixel_create(255, 0, 0), 500, 0.2f);

@@ -20,8 +20,8 @@ camera camera_create_default(void) {
     vector3 direction       = {sinf(yaw), 0.0f, cosf(yaw)};
     vector3 up_direction    = {0.0f, 1.0f, 0.0f};
 
-    float viewport_width    = 1.0f;
-    float viewport_height   = 1.0f;
+    float viewport_width    = 1.6f;
+    float viewport_height   = 0.9f;
     float viewport_distance = VIEWPORT_DISTANCE;
 
     camera c   = (camera) {yaw, position, direction, up_direction, viewport_width, viewport_height, viewport_distance};
