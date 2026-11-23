@@ -45,7 +45,7 @@ void pixel_put(canvas *canvas, int x, int y, pixel colour) {
     int height = canvas->height;
 
     int screen_x = (width / 2) + x;
-    int screen_y = (height / 2) - y;
+    int screen_y = (height / 2) - 1 - y;
     if (screen_x < 0 || screen_y < 0 || screen_x >= width || screen_y >= height) {
         return;
     }
