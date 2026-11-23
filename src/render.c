@@ -183,7 +183,7 @@ void render_scene_to_canvas (canvas *cv, camera *cam, scene *s, bool subsampling
             shadow_cache[i] = -1;
         }
         if (subsampling) {
-            int offset = y & 2;
+            int offset = y & 1;
             int x = (-cv->width / 2) - offset;
             vector3 direction = matrix_vector_mult(camera_rotation,camera_viewport_coord_from_canvas(cv->width, cv->height, x, y, *cam));
             pixel left = render_trace_ray(cam->position, s, direction, 1, INFINITY, 3, shadow_cache);
