@@ -2,6 +2,9 @@
 #include "vector3.h"
 #include <math.h>
 
+static const float MOVE_SPEED = 5.0f;
+static const float YAW_SPEED = 1.5f;
+
 static void add_yaw(camera *cam, float yaw) {
     cam->yaw += yaw;
     cam->direction = (vector3) {sinf(cam->yaw), cam->direction.y , cosf(cam->yaw)};
@@ -32,26 +35,26 @@ vector3 camera_viewport_coord_from_canvas (int width, int height, int x, int y, 
     return (vector3) {viewport_x, viewport_y, c.viewport_distance};
 }
 
-void camera_move_forward(camera *cam) {
-    cam->position = vector3_add(cam->position, vector3_normalize(cam->direction));
+void camera_move_forward(camera *cam, float delta_time) {
+    cam->position = vector3_add(cam->position, vector3_scale(MOVE_SPEED * delta_time, vector3_normalize(cam->direction)));
 }
 
-void camera_move_backward(camera *cam) {
-    cam->position = vector3_sub(cam->position, vector3_normalize(cam->direction));
+void camera_move_backward(camera *cam, float delta_time) {
+    cam->position = vector3_sub(cam->position, vector3_scale(MOVE_SPEED * delta_time, vector3_normalize(cam->direction)));
 }
 
-void camera_move_right(camera *cam) {
-    cam->position = vector3_add(cam->position, camera_get_right(cam));
+void camera_move_right(camera *cam, float delta_time) {
+    cam->position = vector3_add(cam->position, vector3_scale(MOVE_SPEED * delta_time, camera_get_right(cam)));
 }
 
-void camera_move_left(camera *cam) {
-    cam->position = vector3_sub(cam->position, camera_get_right(cam));
+void camera_move_left(camera *cam, float delta_time) {
+    cam->position = vector3_sub(cam->position,vector3_scale(MOVE_SPEED * delta_time, camera_get_right(cam)));
 }
 
-void camera_yaw_left(camera *cam) {
-    add_yaw(cam, -0.2f);
+void camera_yaw_left(camera *cam, float delta_time) {
+    add_yaw(cam, -YAW_SPEED * delta_time);
 }
 
-void camera_yaw_right(camera *cam) {
-    add_yaw(cam, 0.2f);
+void camera_yaw_right(camera *cam, float delta_time) {
+    add_yaw(cam, YAW_SPEED * delta_time);
 }

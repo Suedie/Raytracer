@@ -53,27 +53,27 @@ int main () {
     while (!WindowShouldClose()) {
         bool has_moved = false;
         if (IsKeyDown(KEY_W)) {
-            camera_move_forward(&cam);
+            camera_move_forward(&cam, GetFrameTime());
             has_moved = true;
         }
         if (IsKeyDown(KEY_S)) {
-            camera_move_backward(&cam);
+            camera_move_backward(&cam, GetFrameTime());
             has_moved = true;
         }
         if (IsKeyDown(KEY_D)) {
-            camera_move_right(&cam);
+            camera_move_right(&cam, GetFrameTime());
             has_moved = true;
         }
         if (IsKeyDown(KEY_A)) {
-            camera_move_left(&cam);
+            camera_move_left(&cam, GetFrameTime());
             has_moved = true;
         }
         if (IsKeyDown(KEY_LEFT)) {
-            camera_yaw_left(&cam);
+            camera_yaw_left(&cam, GetFrameTime());
             has_moved = true;
         }
         if (IsKeyDown(KEY_RIGHT)) {
-            camera_yaw_right(&cam);
+            camera_yaw_right(&cam, GetFrameTime());
             has_moved = true;
         }
 
