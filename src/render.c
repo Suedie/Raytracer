@@ -140,6 +140,7 @@ void render_scene_to_canvas (canvas *cv, camera *cam, scene *s) {
     vector3 camera_up = vector3_cross(camera_forward, camera_right);
     matrix3x3 camera_rotation = (matrix3x3) {camera_right, camera_up, camera_forward};
 
+    #pragma omp parallel for 
     for (int y = -cv->height / 2; y < cv->height / 2; y++) {
         for (int x = -cv->width / 2; x < cv->width / 2; x++) {
             vector3 direction = matrix_vector_mult(camera_rotation,camera_viewport_coord_from_canvas(cv->width, cv->height, x, y, *cam));
